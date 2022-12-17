@@ -1,16 +1,38 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+import spacy
+from fastapi import FastAPI
+from spacy.language import Language
+from fonction import *
+import pickle
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+# model loading
+model = pickle.load(open("PickledModel/model.pkl", 'rb'))
+binarized = pickle.load(open("PickledModel/binarizerr.pkl", 'rb'))
+vectorized = pickle.load(open("PickledModel/vectorizer.pkl", 'rb'))
+# prepare pipeline nlp
+Language.factory("language_detector", func=get_lang_detector)
+nlp = spacy.load("en_core_web_sm")
+nlp.add_pipe("language_detector", last=True)
+#
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+#opening API
+app = FastAPI()
+@app.get("/titres/{titre}/questions/{question}/")
+def get_tag_suggestion(titre,question):
+    """
+    definition fonction
+    ___
+    :parameter
+    
+    ___
+    :return: 
+    """
+    canned_soup=prepare_the_soup(question)
+    titre_et_question='. '.join([str(titre) , str(canned_soup) ])
+    tmp_text, tmp_lemma, tmp_sent_text, tmp_sent_lemma, langdict = lemmatisation(nlp(titre_et_question))
+    tfidf_question=vectorized.transform(tmp_lemma)
+    suggested_tag_matrix=model.predict(tfidf_question)
+    suggested_tag_words=binarized.inverse_transform(suggested_tag_matrix)
+#
+    return {"tags" : suggested_tag_words}
+
