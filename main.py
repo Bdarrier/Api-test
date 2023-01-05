@@ -35,5 +35,7 @@ def get_tag_suggestion(titre,question):
     suggested_tag_matrix = model.predict(df_tfidf_question)
     suggested_tag_words = binarized.inverse_transform(suggested_tag_matrix)
 #
+#Ajouter le nom de modele + rajouter un non supervisé
+#
     return suggested_tag_words
 
