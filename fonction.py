@@ -35,15 +35,8 @@ def lemmatisation(doc_for_lemma):
     ___
     :return:
     """
-    return ([token.text for token in doc_for_lemma if (not token.is_stop | token.is_punct) and token.is_alpha],
-            [token.lemma_ for token in doc_for_lemma if (not token.is_stop | token.is_punct) and token.is_alpha
-             and (token.pos_ == 'NOUN')],
-            [[' '.join(token.text for token in sent if (not token.is_stop | token.is_punct) and token.is_alpha)]
-             for sent in doc_for_lemma.sents],
-            [[' '.join(token.lemma_ for token in sent if ((not token.is_stop | token.is_punct) and token.is_alpha
-                                                          and (token.pos_ == 'NOUN')))] for sent in
-             doc_for_lemma.sents],
-            doc_for_lemma._.language)
+    return ([token.lemma_ for token in doc_for_lemma if (not token.is_stop | token.is_punct) and token.is_alpha
+             and (token.pos_ == 'NOUN')])
 
 
 def get_lang_detector(nlp, name):
