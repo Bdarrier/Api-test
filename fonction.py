@@ -1,5 +1,4 @@
 from bs4 import BeautifulSoup
-from spacy_langdetect import LanguageDetector
 
 
 def prepare_the_soup(give_the_soup):
