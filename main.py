@@ -51,4 +51,4 @@ def get_tag_suggestion(titre, question):
     #suggested_tag_matrix = logit.predict(df_tfidf_question)
     #suggested_tag_words_supervised = binarized.inverse_transform(suggested_tag_matrix)
 
-    return {"LDA": suggested_tag_words_unsupervised, "LOGIT": "hi"}
+    return {"LDA": suggested_tag_words_unsupervised, "LOGIT": "hi" }
