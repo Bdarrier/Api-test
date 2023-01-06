@@ -27,7 +27,13 @@ def get_tag_suggestion(titre, question):
     vectorized = pickle.load(open("PickledModel/vectorizer.pkl", 'rb'))
     # prepare pipeline nlp
     Language.factory("language_detector", func=get_lang_detector)
-    nlp = spacy.load("en_core_web_sm")
+
+    try:
+        nlp = spacy.load("en_core_web_sm")
+    except: # If not present, we download
+        spacy.cli.download("en_core_web_sm")
+        nlp = spacy.load("en_core_web_sm")
+
     nlp.add_pipe("language_detector", last=True)
     # Transformation in features
     canned_soup = prepare_the_soup(question)
