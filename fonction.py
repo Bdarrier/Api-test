@@ -36,15 +36,3 @@ def lemmatisation(doc_for_lemma):
     """
     return ([token.lemma_ for token in doc_for_lemma if (not token.is_stop | token.is_punct) and token.is_alpha
              and (token.pos_ == 'NOUN')])
-
-
-def get_lang_detector(nlp, name):
-    """
-    definition
-    ___
-    :parameter
-
-    ___
-    :return:
-    """
-    return LanguageDetector()
