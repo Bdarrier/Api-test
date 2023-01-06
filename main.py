@@ -45,7 +45,7 @@ def get_tag_suggestion(titre, question):
                                         lda.components_[tfidf_lda.argmax()].argsort()[:-5 - 1:-1]]
 
     # Supervised model logit
-    suggested_tag_matrix = logit.predict(df_tfidf_question)
-    suggested_tag_words_supervised = binarized.inverse_transform(suggested_tag_matrix)
+    #suggested_tag_matrix = logit.predict(df_tfidf_question)
+    #suggested_tag_words_supervised = binarized.inverse_transform(suggested_tag_matrix)
 
-    return {"LDA": suggested_tag_words_unsupervised, "LOGIT": suggested_tag_words_supervised }
+    return {"LDA": suggested_tag_words_unsupervised, "LOGIT": "not_supported_by_heroku" }
