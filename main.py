@@ -4,6 +4,18 @@ from fonction import *
 import pickle
 import pandas as pd
 
+# model loading
+logit = pickle.load(open("PickledModel/LogitReg.pkl", 'rb'))
+lda = pickle.load(open("PickledModel/LDA_opti.pkl", 'rb'))
+binarized = pickle.load(open("PickledModel/binarizer.pkl", 'rb'))
+vectorized = pickle.load(open("PickledModel/vectorizer.pkl", 'rb'))
+# nlp pipe
+
+try:
+    nlp = spacy.load("en_core_web_sm")
+except:  # If not present, we download
+    spacy.cli.download("en_core_web_sm")
+    nlp = spacy.load("en_core_web_sm")
 
 # opening API
 app = FastAPI()
@@ -12,25 +24,13 @@ app = FastAPI()
 @app.get("/titres/{titre}/questions/{question}/")
 def get_tag_suggestion(titre, question):
     """
-    definition fonction
+    main fonction for tag suggestion and loading model
     ___
-    :parameter
-    
+    Use title and question.
+    Model where pretrained on StackOverflow data
     ___
-    :return: 
+    Tags suggestions
     """
-    # model loading
-    logit = pickle.load(open("PickledModel/LogitReg.pkl", 'rb'))
-    lda = pickle.load(open("PickledModel/LDA_opti.pkl", 'rb'))
-    binarized = pickle.load(open("PickledModel/binarizer.pkl", 'rb'))
-    vectorized = pickle.load(open("PickledModel/vectorizer.pkl", 'rb'))
-    # nlp pipe
-
-    try:
-        nlp = spacy.load("en_core_web_sm")
-    except: # If not present, we download
-        spacy.cli.download("en_core_web_sm")
-        nlp = spacy.load("en_core_web_sm")
 
     # Transformation in features
     canned_soup = prepare_the_soup(question)

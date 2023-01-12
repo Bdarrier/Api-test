@@ -3,12 +3,12 @@ from bs4 import BeautifulSoup
 
 def prepare_the_soup(give_the_soup):
     """
-    definition
+    Brew soup in can : parsing htm code from StackOverflow.
+    Implemented for dealing with future input
     ___
-    :parameter
-
+    str(string)
     ___
-    :return: 
+    parsed string
     """
     canned_soup = BeautifulSoup(give_the_soup, 'html.parser')
     soup_of_code = canned_soup.findAll('code')
@@ -27,12 +27,11 @@ def prepare_the_soup(give_the_soup):
 
 def lemmatisation(doc_for_lemma):
     """
-    definition
+    get lemmatised noun only token from text.
     ___
-    :parameter
-
+    str to parse
     ___
-    :return:
+    lemmatised noun token
     """
     return ([token.lemma_ for token in doc_for_lemma if (not token.is_stop | token.is_punct) and token.is_alpha
              and (token.pos_ == 'NOUN')])
